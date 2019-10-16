@@ -6,12 +6,12 @@ import {
 import { Button } from 'react-native-elements';
 
 
-class HomeScreen extends React.Component {
+class WeekStatsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const params = navigation.state.params || {};
         
         return {
-            title: 'Home',
+            title: 'Week Stats'
         };
     };
     
@@ -19,7 +19,7 @@ class HomeScreen extends React.Component {
         return (
             <View>
                 <Text>
-                    This is the Home Screen!
+                    This is the Week Stats Screen!
                 </Text>
                 <Button onPress={() => this.props.navigation.navigate('Home')}
                   title="Home"
@@ -52,4 +52,4 @@ class HomeScreen extends React.Component {
     
 }
 
-export default HomeScreen;
+export default WeekStatsScreen;

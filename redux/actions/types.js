@@ -3,5 +3,6 @@ export const FETCH_PRIVATE_HELLO = 'FETCH_PRIVATE_HELLO'
 export const FETCH_GROUPS = 'FETCH_GROUPS'
 export const SAVE_CURRENT_USER = 'SAVE_CURRENT_USER'
 export const SELECT_GROUP = 'SELECT_GROUP'
+export const LOGOUT = 'LOGOUT'
 
 

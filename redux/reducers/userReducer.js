@@ -1,8 +1,9 @@
-import { SAVE_CURRENT_USER } from '../actions/types';
+import { SAVE_CURRENT_USER, LOGOUT } from '../actions/types';
 
 const initialState = {
     usersArray: [],
-    currentUserId: null
+    currentUserId: null, 
+    selectedUser: null
 }
 
 export default function(state = initialState, action) {
@@ -14,6 +15,12 @@ export default function(state = initialState, action) {
                 ...state,
                 currentUserId: action.payload.data.id, 
                 usersArray: updatedUsersArray
+            }
+        case LOGOUT:
+            return {
+                usersArray: [],
+                currentUserId: null, 
+                selectedUser: null
             }
         default: 
             return state;

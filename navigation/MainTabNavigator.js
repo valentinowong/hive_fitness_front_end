@@ -1,9 +1,12 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import HomeStackNavigator from './HomeStackNavigator';
+import MyProfileStackNavigator from './MyProfileStackNavigator';
+import ChatStackNavigator from './ChatStackNavigator';
+import NewWorkoutStackNavigator from './NewWorkoutStackNavigator';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -13,28 +16,51 @@ const config = Platform.select({
   default: {},
 });
 
-const HomeStack = createStackNavigator(
-  {
-    Home: HomeScreen,
-  },
-  config
-);
-
-HomeStack.navigationOptions = {
+HomeStackNavigator.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
+      name={Platform.OS === 'ios' ? `ios-home` : 'md-home'}
+    />
+  ),
+};
+
+HomeStackNavigator.path = '';
+
+MyProfileStackNavigator.navigationOptions = {
+  tabBarLabel: 'My Profile',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'} />
+  ),
+};
+
+MyProfileStackNavigator.path = '';
+
+ChatStackNavigator.navigationOptions = {
+  tabBarLabel: 'Chat',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} />
+  ),
+};
+
+ChatStackNavigator.path = '';
+
+NewWorkoutStackNavigator.navigationOptions = {
+  tabBarLabel: 'New Workout',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon 
+      focused={focused} 
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-add-circle${focused ? '' : '-outline'}`
+          : 'md-add-circle'
       }
     />
   ),
 };
 
-HomeStack.path = '';
+NewWorkoutStackNavigator.path = '';
 
 const LinksStack = createStackNavigator(
   {
@@ -85,10 +111,10 @@ Example.navigationOptions = {
 Example.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
-  Example,
+  HomeStackNavigator,
+  MyProfileStackNavigator,
+  ChatStackNavigator,
+  NewWorkoutStackNavigator,
 });
 
 tabNavigator.path = '';

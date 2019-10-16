@@ -2,9 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { AuthSession } from 'expo';
 import jwtDecode from 'jwt-decode';
-import {AsyncStorage} from 'react-native';
+import { connect } from 'react-redux';
 import * as WebBrowser from 'expo-web-browser';
 import { auth0ClientId, auth0Domain, storeData, removeData } from '../redux/adapters/BaseConfig'
+// import { logout } from '../redux/actions/userActions';
+
 
 // import * as Random from 'expo-random';
 // import * as Crypto from 'expo-crypto';
@@ -108,44 +110,34 @@ class LoginScreen extends React.Component {
         }).then(res=>res.json())
         .then(data=> {
           console.log('respJson=',data)
-          // const jwtTokenIdToken = data.id_token;
-          // const decodedIdToken = jwtDecode(jwtTokenIdToken);
-          // const { name } = decodedIdToken;
-          // this.setState({ name });
-          // console.log('Decoded ID Token:', decodedIdToken)
 
           const accessToken = data.access_token;
           const decodedAccessToken = jwtDecode(accessToken);
           storeData('token', accessToken);
 
           console.log('Decoded Access Token:', decodedAccessToken);
-          // fetch('http://localhost:3000/api/v1/groups', {
-          //   headers: {
-          //     'Authorization': `Bearer ${accessToken}`
-          //   }
-          // }).then(res=>res.json()).then(data=>console.log(data))
           this.props.navigation.navigate('Groups');
         })
         
       }
     };
 
-    logout = async () => {
-      const logoutUrl = `${auth0Domain}/v2/logout?federated`
-      await WebBrowser.openBrowserAsync(logoutUrl)
-      this.setState({name: null});
-      removeData('token')
-    }
+  logout = async () => {
+    const logoutUrl = `${auth0Domain}/v2/logout?federated`
+    await WebBrowser.openBrowserAsync(logoutUrl)
+    removeData('token');
+    this.props.navigation.navigate('Login')
+  }
   
   render() {
-    const { name } = this.state;
-
+    const { currentUserId } = this.props.users
+    const currentUser = this.props.users.usersArray.find(user => user.id === currentUserId)
     return (
       <View style={styles.container}>
         {
-          name ?
+          currentUserId ?
           <View>
-              <Text style={styles.title}>You are logged in, {name}!</Text>
+              <Text style={styles.title}>You are logged in, {`${currentUser.attributes.first_name} ${currentUser.attributes.last_name}`}!</Text>
               <Button title="Logout" onPress={this.logout} />
           </View> :
           <Button title="Log in with Auth0" onPress={this.login} />
@@ -169,4 +161,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+const mapStateToProps = state => ({
+  users: state.users
+})
+
+export default connect( mapStateToProps, null )(LoginScreen);

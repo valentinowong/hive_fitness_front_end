@@ -1,19 +1,17 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator, createSwitchNavigator } from 'react-navigation';
 
-import MainTabNavigator from './MainTabNavigator';
 import LoginScreen from '../screens/LoginScreen';
+import GroupStackNavigator from './GroupStackNavigator';
 
-const RootStackNavigator = createStackNavigator(
+const RootSwitchNavigator = createSwitchNavigator(
   {
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
-  Login: LoginScreen,
+    Groups: GroupStackNavigator,
+    Login: LoginScreen,
   },
   {
     initialRouteName: 'Login'
   }
 );
 
-export default RootStackNavigator;
+export default RootSwitchNavigator;

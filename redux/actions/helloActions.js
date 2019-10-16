@@ -1,8 +1,10 @@
 import { FETCH_PUBLIC_HELLO, FETCH_PRIVATE_HELLO } from './types';
+import {AsyncStorage} from 'react-native';
+import { IP } from '../adapters/BaseConfig'
 
 export const fetchPublicHello = () => dispatch => {
-    console.log('fetching')
-    fetch('http://localhost:3000/public/hello')
+    console.log('Public Fetching')
+    fetch(`http://${IP}:3000/public/hello`)
         .then(res => res.json())
         .then(data => 
             dispatch({
@@ -14,7 +16,7 @@ export const fetchPublicHello = () => dispatch => {
 
 export const fetchPrivateHello = () => dispatch => {
     console.log('Private Fetching')
-    fetch('http://localhost:3000/private/hello', {
+    fetch(`http://${IP}:3000/private/hello`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',

@@ -1,6 +1,5 @@
 import { FETCH_PUBLIC_HELLO, FETCH_PRIVATE_HELLO } from '../actions/types';
 import { DrawerActions } from 'react-navigation';
-import { statement } from '@babel/template';
 
 const initialState = {
     messages: [],
@@ -20,6 +19,6 @@ export default function(state = initialState, action) {
                     messages: [action.payload]
                 }
         default: 
-            return statement;
+            return state;
     }
 }

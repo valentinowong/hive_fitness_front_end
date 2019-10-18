@@ -1,5 +1,4 @@
 import { FETCH_PUBLIC_HELLO, FETCH_PRIVATE_HELLO } from '../actions/types';
-import { DrawerActions } from 'react-navigation';
 
 const initialState = {
     messages: [],

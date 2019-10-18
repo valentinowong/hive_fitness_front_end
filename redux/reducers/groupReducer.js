@@ -3,7 +3,7 @@ import { FETCH_GROUPS, SELECT_GROUP } from '../actions/types';
 const initialState = {
     groupsArray: [],
     selectedGroupId: null,
-    admins: []
+    admins: [],
 }
 
 export default function(state = initialState, action) {
@@ -18,7 +18,7 @@ export default function(state = initialState, action) {
         case SELECT_GROUP:
             return {
                 ...state,
-                selectedGroupId: action.payload
+                selectedGroupId: action.payload.data.id
             }
         default: 
             return state;

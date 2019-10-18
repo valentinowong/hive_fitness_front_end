@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
+import { Button } from 'react-native-elements';
 import { AuthSession } from 'expo';
 import jwtDecode from 'jwt-decode';
 import { connect } from 'react-redux';

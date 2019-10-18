@@ -76,8 +76,9 @@ class MyGroupsScreen extends React.Component {
         return `${days[date.getUTCDay()]}, ${months[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`
     }
 
-    handleGroupPress = (id) => {
-        this.props.selectGroup(id)
+    handleGroupPress = async (id) => {
+        const token = await AsyncStorage.getItem('token')
+        this.props.selectGroup(id, token)
         this.props.navigation.navigate('Main')
     }
 

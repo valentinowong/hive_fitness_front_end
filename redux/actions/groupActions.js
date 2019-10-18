@@ -1,5 +1,5 @@
 import { FETCH_GROUPS, SAVE_CURRENT_USER, SELECT_GROUP } from './types';
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { GroupAdapter } from '../adapters';
 
 export const fetchGroups = (token) => dispatch => {
@@ -22,10 +22,19 @@ export const fetchGroups = (token) => dispatch => {
   console.log('fetchGroups token:', token);    
 }
     
-export const selectGroup = (id) => dispatch => {
+export const selectGroup = (id, token) => dispatch => {
   console.log('Selecting Group');
-  dispatch({
-    type: SELECT_GROUP,
-    payload: id
+  // Fetch Specific Group Info
+  GroupAdapter.show(id, token).then(response => {
+    console.log("Group Show Response JSON: ", response)
+    // Update UsersArray
+    // Update WorkoutsArray
+    dispatch({
+      type: SELECT_GROUP,
+      payload: response
+    })
   })
+  
 }
+
+

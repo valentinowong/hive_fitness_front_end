@@ -1,6 +1,6 @@
 import {AsyncStorage} from 'react-native';
 
-export const IP = `10.9.104.185`
+export const IP = `10.9.109.36`
 export const BASE_URL = `http://${IP}:3000/api/v1/`
 
 // Auth0 application specific Client ID

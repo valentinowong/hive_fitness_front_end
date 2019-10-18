@@ -1,4 +1,4 @@
-import { SAVE_CURRENT_USER, LOGOUT } from '../actions/types';
+import { SAVE_CURRENT_USER, LOGOUT, SELECT_GROUP } from '../actions/types';
 
 const initialState = {
     usersArray: [],
@@ -21,6 +21,13 @@ export default function(state = initialState, action) {
                 usersArray: [],
                 currentUserId: null, 
                 selectedUser: null
+            }
+        case SELECT_GROUP:
+            const usersArray = action.payload.included.filter(item => item.type === 'user')
+            return {
+                ...state,
+                usersArray: usersArray,
+                selectedUser: null,
             }
         default: 
             return state;

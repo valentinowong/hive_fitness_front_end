@@ -111,11 +111,15 @@ Example.navigationOptions = {
 Example.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStackNavigator,
-  MyProfileStackNavigator,
-  ChatStackNavigator,
-  NewWorkoutStackNavigator,
+  HomeStack: HomeStackNavigator,
+  MyProfileStack: MyProfileStackNavigator,
+  ChatStack: ChatStackNavigator,
+  NewWorkoutStack: NewWorkoutStackNavigator,
 });
+
+tabNavigator.navigationOptions = {
+  header: null,
+};
 
 tabNavigator.path = '';
 

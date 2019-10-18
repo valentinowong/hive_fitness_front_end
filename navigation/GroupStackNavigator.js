@@ -20,7 +20,7 @@ const GroupStackNavigator = createStackNavigator(
         NewGroupDetails: NewGroupDetailsScreen,
     },
     {
-      initialRouteName: 'MyGroups'
+      initialRouteName: 'MyGroups',
     }
   );
   

@@ -1,14 +1,18 @@
 import React from 'react';
-import { Text, View, Picker, TextInput, AsyncStorage } from 'react-native';
+import { Text, View, Image, Picker, TextInput, ScrollView, TouchableHighlight, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
 import DateTimePicker from "react-native-modal-datetime-picker";
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
 import { openNewWorkoutForm, changeWorkoutFormDatetime, changeWorkoutFormDescription, submitNewWorkout } from '../redux/actions/workoutActions';
 
 
 class LogNewWorkoutScreen extends React.Component {
     state = {
-        isDateTimePickerVisible: false
+        isDateTimePickerVisible: false,
+        image: null,
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -20,7 +24,17 @@ class LogNewWorkoutScreen extends React.Component {
     };
 
     componentDidMount() {
-        this.props.openNewWorkoutForm()
+        this.getPermissionAsync();
+        this.props.openNewWorkoutForm();
+    }
+
+    getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+          const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
     }
     
     render(){
@@ -29,7 +43,7 @@ class LogNewWorkoutScreen extends React.Component {
 
         console.log("LogNewWorkoutScreen Props: ", this.props)
         return (
-            <View>
+            <ScrollView>
                 <View style={{margin: 10}}>
                     <Text
                         style={styles.textLabel}
@@ -49,22 +63,29 @@ class LogNewWorkoutScreen extends React.Component {
                     <Text style={styles.datetime} onPress={this.toggleShowDateTimePicker} >{this.renderDatetime()}</Text>
                 </View>
 
+                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <Button
+                    title="Pick an image from camera roll"
+                    onPress={this._pickImage}
+                    />
+                    {this.state.image &&
+                    <Image source={{ uri: this.state.image.uri }} style={{ width: 200, height: 200 }} />}
+                </View>
+
+                <Button
+                    title="Save"
+                    buttonStyle={styles.buttonView}
+                    onPress={this.handleSubmit}
+                />
+
                 <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
                     onConfirm={this.handleDatePicked}
                     onCancel={this.toggleShowDateTimePicker}
                     mode='datetime'
                 />
-                <Button
-                        title="Save"
-                        buttonStyle={styles.buttonView}
-                        onPress={this.handleSubmit}
-                />
 
-                <Text>
-                    This is the Log New Workout Screen!
-                </Text>
-            </View>
+            </ScrollView>
       )
     }
 
@@ -108,15 +129,40 @@ class LogNewWorkoutScreen extends React.Component {
 
     handleSubmit = async () => {
         const token = await AsyncStorage.getItem('token')
-        const data = {
+        const user = this.props.users.usersArray.find(user => user.id === this.props.users.currentUserId)
+        let workout = { 
             user_id: this.props.users.currentUserId,
             group_id: this.props.selectedGroupId,
             datetime: this.props.workouts.formData.datetime,
             description: this.props.workouts.formData.workoutDescription,
         }
+        if (this.state.image) {
+            workout.image = this.state.image.base64,
+            workout.file_name = `${new Date().toUTCString()}-${user.attributes.first_name}${user.attributes.last_name}`
+        }
+        const data = {
+            workout: workout
+        }
         this.props.submitNewWorkout(token, data, this.props.selectedGroupId)
         // this.props.navigation.navigate('WorkoutDetails')
     }
+
+    _pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            base64: true,
+            quality: 0.1,
+        });
+    
+        console.log(result);
+    
+        if (!result.cancelled) {
+          this.setState({ image: result });
+        }
+      };
+
 }
 
 const styles = {

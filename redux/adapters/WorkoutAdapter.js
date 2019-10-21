@@ -1,8 +1,7 @@
 import {configWithAuth, BASE_URL } from './BaseConfig'
-import { connect } from 'react-redux';
 
 const WorkoutAdapter = {
-    index: (token, selectedGroupId) => fetch(`${BASE_URL}groups/${props.selectedGroupId}/workouts`, configWithAuth("GET", token)).then(res=>res.json()),
+    index: (token, selectedGroupId) => fetch(`${BASE_URL}groups/${selectedGroupId}/workouts`, configWithAuth("GET", token)).then(res=>res.json()),
     create: (token, data, selectedGroupId) => fetch(`${BASE_URL}groups/${selectedGroupId}/workouts`, configWithAuth("POST", token, data)).then(res=>res.json()),
     show: (id, token, selectedGroupId, body) => fetch(`${BASE_URL}groups/${selectedGroupId}/workouts/${id}`, configWithAuth("GET", body)).then(res=>res.json()),
     update: (id, token, selectedGroupId, body) => fetch(`${BASE_URL}groups/${selectedGroupId}/workouts/${id}`, configWithAuth("PUT", body)).then(res=>res.json()),

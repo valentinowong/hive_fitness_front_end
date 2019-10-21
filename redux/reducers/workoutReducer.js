@@ -1,8 +1,9 @@
-import { NEW_WORKOUT_FORM, CHANGE_WORKOUT_FORM_DATETIME, CHANGE_WORKOUT_FORM_DESCRIPTION, LOG_WORKOUT, SELECT_GROUP } from '../actions/types';
+import { NEW_WORKOUT_FORM, CHANGE_WORKOUT_FORM_DATETIME, CHANGE_WORKOUT_FORM_DESCRIPTION, LOG_WORKOUT, SELECT_GROUP, REFRESH_WORKOUTS, FETCH_WORKOUTS } from '../actions/types';
 
 const initialState = {
     workoutsArray: [],
     selectedWorkout: null,
+    refreshing: false,
     formData: {
         workoutDescription: '',
         datetime: new Date(),
@@ -38,21 +39,33 @@ export default function(state = initialState, action) {
         case LOG_WORKOUT:
             return {
                 ...state,
-                workoutsArray:[
+                workoutsArray: [
                     ...state.workoutsArray,
                     action.payload
                 ]
             }
         case SELECT_GROUP:
-                const workoutsArray = action.payload.included.filter(item => item.type === 'workout')
-                return {
-                    workoutsArray: workoutsArray,
-                    selectedWorkout: null,
-                    formData: {
-                        workoutDescription: '',
-                        datetime: new Date(),
-                    }
+            const workoutsArray = action.payload.included.filter(item => item.type === 'workout')
+            return {
+                workoutsArray: workoutsArray,
+                selectedWorkout: null,
+                refreshing: false,
+                formData: {
+                    workoutDescription: '',
+                    datetime: new Date(),
                 }
+            }
+        case REFRESH_WORKOUTS:
+            return {
+                ...state,
+                refreshing: true,
+            }
+        case FETCH_WORKOUTS:
+            return {
+                ...state, 
+                workoutsArray: action.payload,
+                refreshing: false,
+            }
         default: 
             return state;
     }

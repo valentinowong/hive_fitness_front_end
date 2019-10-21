@@ -6,9 +6,9 @@ import {
     Text,
     StyleSheet,
     View, 
-    Button
+    Button,
+    AsyncStorage
 } from 'react-native';
-import {AsyncStorage} from 'react-native';
 import { ListItem } from 'react-native-elements'
 import { connect } from 'react-redux';
 import { fetchGroups, selectGroup } from '../redux/actions/groupActions';

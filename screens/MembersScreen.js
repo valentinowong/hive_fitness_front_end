@@ -1,11 +1,9 @@
 import React from 'react';
-import {
-  Text,
-  View, 
-  FlatList
-} from 'react-native';
-import { Button, ListItem } from 'react-native-elements';
+import { Text, View, FlatList } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { styles } from '../styles';
+
 
 class MembersScreen extends React.Component {
   
@@ -23,7 +21,6 @@ class MembersScreen extends React.Component {
     return (
       <View>
         <FlatList
-          ListHeaderComponent={<Text>Group Members</Text>}
           keyExtractor={this.keyExtractor}
           data={this.props.users.usersArray ? this.props.users.usersArray : null}
           renderItem={this.renderItem}
@@ -37,6 +34,7 @@ class MembersScreen extends React.Component {
       <ListItem
         key={item.id}
         title={`${item.attributes.first_name} ${item.attributes.last_name}`}
+        titleStyle={styles.secondaryListTitle}
         leftIcon={{ name: 'person'}}
         onPress={() => this.handleMemberPress(item.id)}
         bottomDivider

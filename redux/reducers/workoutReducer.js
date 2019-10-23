@@ -1,12 +1,12 @@
-import { NEW_WORKOUT_FORM, CHANGE_WORKOUT_FORM_DATETIME, CHANGE_WORKOUT_FORM_DESCRIPTION, LOG_WORKOUT, SELECT_GROUP, REFRESH_WORKOUTS, FETCH_WORKOUTS } from '../actions/types';
+import { NEW_WORKOUT_FORM, CHANGE_WORKOUT_FORM_DATETIME, CHANGE_WORKOUT_FORM_DESCRIPTION, SELECT_WORKOUT_IMAGE, LOG_WORKOUT, SELECT_GROUP, REFRESH_WORKOUTS, FETCH_WORKOUTS } from '../actions/types';
 
 const initialState = {
     workoutsArray: [],
-    selectedWorkout: null,
     refreshing: false,
     formData: {
         workoutDescription: '',
         datetime: new Date(),
+        image: null,
     },
 }
 
@@ -36,13 +36,24 @@ export default function(state = initialState, action) {
                     workoutDescription: action.payload,
                 }
             }
+        case SELECT_WORKOUT_IMAGE:
+            return {
+                ...state,
+                formData: {
+                    ...state.formData,
+                    image: action.payload,
+                }
+            }
         case LOG_WORKOUT:
             return {
                 ...state,
-                workoutsArray: [
-                    ...state.workoutsArray,
-                    action.payload
-                ]
+                workoutsArray: action.payload,
+                formData: {
+                    workoutDescription: '',
+                    datetime: new Date(),
+                    image: null,
+                },
+
             }
         case SELECT_GROUP:
             const workoutsArray = action.payload.included.filter(item => item.type === 'workout')

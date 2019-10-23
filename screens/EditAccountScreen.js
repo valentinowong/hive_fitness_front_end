@@ -7,6 +7,7 @@ import {
 import { Avatar, Button, Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { styles } from '../styles';
 
 class EditAccountScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -34,78 +35,73 @@ class EditAccountScreen extends React.Component {
         const {email, first_name, last_name} = currentUser.attributes
         return (
             <View>
-                <View style={styles.header}>
-                    <View style={{marginRight: 20}}>
-                        <Ionicons name='ios-person' size={150}/>
-                    </View>
-                    <View style={styles.accountDetailsContainer}>
-                        <View style={styles.accountDetailsContainer}>
+                <View style={styles.rowContainer}>
+                    <Ionicons name='ios-person' size={150}/>
+                    <View style={styles.bodyContainer}>
+                        <View style={styles.detailsContainer}>
                             <Input
                                 defaultValue={first_name}
                                 label='First Name'
-                                labelStyle={styles.accountDetailLabel}
-                                inputStyle={styles.accountDetail}
+                                labelStyle={styles.detailsLabel}
+                                inputStyle={styles.detailsTextInput}
                             />
                         </View>
-                        <View style={styles.accountDetailsContainer}>
+                        <View style={styles.detailsContainer}>
                             <Input
                                 defaultValue={last_name}
                                 label='Last Name'
-                                labelStyle={styles.accountDetailLabel}
-                                inputStyle={styles.accountDetail}
+                                labelStyle={styles.detailsLabel}
+                                inputStyle={styles.detailsTextInput}
                             />
                         </View>
                     </View>
                 </View>
                 <View style={styles.hairLineBorder}/>
-                <View style={styles.accountDetailsContainer}>
+                <View style={styles.detailsContainer}>
                     <Input
                         defaultValue={email}
                         label='Email'
-                        labelStyle={styles.accountDetailLabel}
-                        inputStyle={styles.accountDetail}
+                        labelStyle={styles.detailsLabel}
+                        inputStyle={styles.detailsTextInput}
                     />
                 </View>
-                <Text>
-                    This is the Edit Account Screen!
-                </Text>
             </View>
         )
     }
     
 }
-const styles = StyleSheet.create({
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        margin: 30
-    },
-    hairLineBorder: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#D9D9D9',
-        width: '100%',
-    },
-    buttonView: {
-        width: '100%',
-        backgroundColor: '#D9D9D9',
-        margin: 10,
-    },
-    buttonTitle: {
-        color: '#000'
-    },
-    accountDetailsContainer: {
-        justifyContent: 'center',
-        margin: 10,
-    },
-    accountDetailLabel: {
-        fontSize: 24,
-        fontWeight: 'bold'
-    },
-    accountDetail: {
-        fontSize: 24
-    }
+// const styles = StyleSheet.create({
+//     header: {
+//         flexDirection: 'row',
+//         alignItems: 'center',
+//         margin: 30
+//     },
+//     hairLineBorder: {
+//         borderBottomWidth: 1,
+//         borderBottomColor: '#D9D9D9',
+//         width: '100%',
+//     },
+//     buttonView: {
+//         width: '100%',
+//         backgroundColor: '#D9D9D9',
+//         margin: 10,
+//     },
+//     buttonTitle: {
+//         color: '#000'
+//     },
+//     accountDetailsContainer: {
+//         justifyContent: 'center',
+//         margin: 10,
+//     },
+//     accountDetailLabel: {
+//         fontSize: 24,
+//         fontWeight: 'bold'
+//     },
+//     accountDetail: {
+//         fontSize: 24
+//     }
 
-});
+// });
 
 const mapStateToProps = state => ({
     users: state.users

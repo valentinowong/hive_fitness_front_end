@@ -1,14 +1,11 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet
-} from 'react-native';
+import { Text, View } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux';
 import { auth0Domain, removeData } from '../redux/adapters/BaseConfig'
+import { styles } from '../styles';
 
 
 class MyAccountScreen extends React.Component {
@@ -45,7 +42,7 @@ class MyAccountScreen extends React.Component {
         return (
             <View>
                 <View 
-                    style={styles.container}
+                    style={styles.centerContainer}
                 >
                     <Ionicons name='ios-person' size={300}/>
                     <View
@@ -53,63 +50,28 @@ class MyAccountScreen extends React.Component {
                     />
                     <Button
                         title="Logout"
-                        buttonStyle={styles.buttonView}
-                        titleStyle={styles.buttonTitle}
+                        buttonStyle={styles.singleLargeButton}
+                        titleStyle={styles.singleLargeButtonTitle}
                         onPress={this.logout}
                     />
                 </View>
-                <View style={styles.accountDetailsContainer}>
-                    <View style={styles.accountDetailsContainer}>
-                        <Text style={styles.accountDetailLabel} >Name</Text>
-                        <Text style={styles.accountDetail}>
+                <View style={styles.bodyContainer}>
+                    <View style={styles.detailsContainer}>
+                        <Text style={styles.detailsLabel} >Name</Text>
+                        <Text style={styles.detailsText}>
                             {`${first_name} ${last_name}`}
                         </Text>
                     </View>
-                    <View style={styles.accountDetailsContainer}>
-                        <Text style={styles.accountDetailLabel}>Email</Text>
-                        <Text style={styles.accountDetail}>{email}</Text>
+                    <View style={styles.detailsContainer}>
+                        <Text style={styles.detailsLabel}>Email</Text>
+                        <Text style={styles.detailsText}>{email}</Text>
                     </View>
                 </View>
-                <Text>
-                    This is the My Account Screen!
-                </Text>
             </View>
         )
     }
     
 }
-
-const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    hairLineBorder: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#D9D9D9',
-        width: '100%',
-    },
-    buttonView: {
-        width: '100%',
-        backgroundColor: '#D9D9D9',
-        margin: 10,
-    },
-    buttonTitle: {
-        color: '#000'
-    },
-    accountDetailsContainer: {
-        justifyContent: 'center',
-        margin: 10
-    },
-    accountDetailLabel: {
-        fontSize: 24,
-        fontWeight: 'bold'
-    },
-    accountDetail: {
-        fontSize: 24,
-    }
-
-});
 
 const mapStateToProps = state => ({
     users: state.users

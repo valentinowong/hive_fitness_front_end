@@ -1,4 +1,4 @@
-import { NEW_WORKOUT_FORM, CHANGE_WORKOUT_FORM_DATETIME, CHANGE_WORKOUT_FORM_DESCRIPTION, LOG_WORKOUT, FETCH_WORKOUTS, REFRESH_WORKOUTS } from './types';
+import { NEW_WORKOUT_FORM, CHANGE_WORKOUT_FORM_DATETIME, CHANGE_WORKOUT_FORM_DESCRIPTION, SELECT_WORKOUT_IMAGE, LOG_WORKOUT, FETCH_WORKOUTS, REFRESH_WORKOUTS } from './types';
 import { WorkoutAdapter } from '../adapters';
 
 export const openNewWorkoutForm = () => dispatch => {
@@ -24,6 +24,14 @@ export const changeWorkoutFormDescription = (description) => dispatch => {
   });
 };
 
+export const selectWorkoutImage = (image) => dispatch => {
+  console.log('Selected Workout Image')
+  dispatch({
+    type: SELECT_WORKOUT_IMAGE,
+    payload: image,
+  })
+}
+
 export const submitNewWorkout = (token, data, selectedGroupId) => dispatch => {
   console.log('Submitting New Workout');
   WorkoutAdapter.create(token, data, selectedGroupId)
@@ -33,7 +41,7 @@ export const submitNewWorkout = (token, data, selectedGroupId) => dispatch => {
         type: LOG_WORKOUT,
         payload: response.data,
       })
-    });
+    })
 }
 
 export const fetchWorkouts = (token, selectedGroupId) => dispatch => {

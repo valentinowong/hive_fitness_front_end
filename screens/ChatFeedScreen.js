@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, ScrollView, FlatList, AsyncStorage } from 'react-native';
 import { Button, ListItem, Card } from 'react-native-elements';
 import { refreshWorkouts, fetchWorkouts } from '../redux/actions/workoutActions';
-
+import { styles } from '../styles';
 import { connect } from 'react-redux';
 
 class ChatFeedScreen extends React.Component {
@@ -22,7 +22,7 @@ class ChatFeedScreen extends React.Component {
         return (
             <FlatList
                 keyExtractor={this.keyExtractor}
-                data={this.props.workouts.workoutsArray ? this.sortedWorkoutsArray() : null}
+                data={this.renderWorkoutsData()}
                 renderItem={this.renderItem}
                 refreshing={this.props.workouts.refreshing}
                 onRefresh={this.handleRefresh}
@@ -35,13 +35,15 @@ class ChatFeedScreen extends React.Component {
         const url = item.attributes.image_url ? {uri: item.attributes.image_url } : require('../assets/images/dumbbell-workout.png')
         return (
             <Card
-                title={`${user.attributes.first_name} ${user.attributes.last_name}`}
                 image={url}
                 imageStyle={{width: 300, height: 300}}
                 imageProps={{resizeMode: 'contain'}}
             >
-                <Text>{this.renderDatetime(item.attributes.datetime)}</Text>
-                <Text>{item.attributes.description}</Text>
+                <View style={styles.feedDetailsContainer}>
+                    <Text style={styles.feedUserName}>{`${user.attributes.first_name} ${user.attributes.last_name}`}</Text>
+                    <Text style={styles.feedDatetime}>{this.renderDatetime(item.attributes.datetime)}</Text>
+                </View>
+                <Text style={styles.feedWorkoutDescription}>{item.attributes.description}</Text>
         </Card>  
         )
         
@@ -53,6 +55,20 @@ class ChatFeedScreen extends React.Component {
             b = new Date(b.attributes.datetime);
             return a > b ? -1 : a < b ? 1 : 0;
         })
+    }
+
+    renderWorkoutsData = () => {
+        const { navigation } = this.props;
+        const user_id = navigation.getParam('selectedUserId', null)
+
+        if (user_id) {
+            return this.sortedWorkoutsArray().filter(workout => workout.relationships.user.data.id === user_id)
+        } else if (this.props.workouts.workoutsArray) {
+            return this.sortedWorkoutsArray()
+        } else {
+            return null
+        }
+
     }
 
     renderDatetime = (datetimeStr) => {

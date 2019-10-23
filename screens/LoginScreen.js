@@ -1,11 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
-import { Button } from 'react-native-elements';
+import { styles } from '../styles';
+import { Button, Divider } from 'react-native-elements';
 import { AuthSession } from 'expo';
 import jwtDecode from 'jwt-decode';
 import { connect } from 'react-redux';
 import * as WebBrowser from 'expo-web-browser';
 import { auth0ClientId, auth0Domain, storeData, removeData } from '../redux/adapters/BaseConfig'
+import Calendar from '../components/Calendar'
+
 // import { logout } from '../redux/actions/userActions';
 
 
@@ -134,33 +137,26 @@ class LoginScreen extends React.Component {
     const { currentUserId } = this.props.users
     const currentUser = this.props.users.usersArray.find(user => user.id === currentUserId)
     return (
-      <View style={styles.container}>
+      <View style={styles.loginContainer}>
         {
           currentUserId ?
           <View>
-              <Text style={styles.title}>You are logged in, {`${currentUser.attributes.first_name} ${currentUser.attributes.last_name}`}!</Text>
+              <Text style={styles.feedDescription}>You are logged in, {`${currentUser.attributes.first_name} ${currentUser.attributes.last_name}`}!</Text>
               <Button title="Logout" onPress={this.logout} />
           </View> :
-          <Button title="Log in with Auth0" onPress={this.login} />
+          <Button 
+            title="Login / Signup" 
+            onPress={this.login} 
+            titleStyle={styles.largeButtonTitle}
+            buttonStyle={styles.loginButton}
+          />
         }
+        {/* <Calendar/> */}
       </View>
+      
     );
   }
 }
-  
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    textAlign: 'center',
-    marginTop: 40,
-  },
-});
 
 const mapStateToProps = state => ({
   users: state.users

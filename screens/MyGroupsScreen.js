@@ -6,6 +6,7 @@ import {
     Text,
     StyleSheet,
     View, 
+    ScrollView,
     Button,
     AsyncStorage
 } from 'react-native';
@@ -14,6 +15,7 @@ import { connect } from 'react-redux';
 import { fetchGroups, selectGroup } from '../redux/actions/groupActions';
 import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
+import { styles } from '../styles';
 
 class MyGroupsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -44,14 +46,14 @@ class MyGroupsScreen extends React.Component {
     render(){
         console.log('My Groups Screen groups props:', this.props.groups, 'My Groups Screen users props:', this.props.users)
         return (
-            <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.listContainer}>
                 <FlatList
-                    ListHeaderComponent={<Text style={styles.listHeader} >My Groups</Text>}
+                    ListHeaderComponent={<Text style={styles.primaryListHeader}>My Groups</Text>}
                     keyExtractor={this.keyExtractor}
                     data={this.props.groups.groupsArray ? this.props.groups.groupsArray : null}
                     renderItem={this.renderItem}
                 />
-            </SafeAreaView>
+            </ScrollView>
         )
     }
 
@@ -60,10 +62,10 @@ class MyGroupsScreen extends React.Component {
             key={item.id}
             title={item.attributes.name}
             subtitle={`${this.formatDate(item.attributes.start_date)} - ${this.formatDate(item.attributes.end_date)}`}
-            // style={styles.item}
-            titleStyle={styles.title}
             leftIcon={{ name: 'group'}}
             onPress={() => this.handleGroupPress(item.id)}
+            titleStyle={styles.primaryListTitle}
+            subtitleStyle={styles.primaryListSubtitle}
             bottomDivider
             chevron
         />
@@ -83,26 +85,6 @@ class MyGroupsScreen extends React.Component {
     }
 
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      marginTop: Constants.statusBarHeight,
-    },
-    item: {
-      backgroundColor: '#f9c2ff',
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 16,
-    },
-    title: {
-      fontSize: 32,
-    },
-    listHeader: {
-        fontSize: 32,
-        fontWeight: "bold"
-    }
-});
 
 const mapStateToProps = state => ({
     groups: state.groups,

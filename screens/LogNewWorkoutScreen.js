@@ -6,13 +6,13 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
-import { openNewWorkoutForm, changeWorkoutFormDatetime, changeWorkoutFormDescription, submitNewWorkout } from '../redux/actions/workoutActions';
+import { styles } from '../styles';
+import { openNewWorkoutForm, changeWorkoutFormDatetime, changeWorkoutFormDescription, selectWorkoutImage, submitNewWorkout, refreshWorkouts, fetchWorkouts } from '../redux/actions/workoutActions';
 
 
 class LogNewWorkoutScreen extends React.Component {
     state = {
         isDateTimePickerVisible: false,
-        image: null,
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -40,43 +40,42 @@ class LogNewWorkoutScreen extends React.Component {
     render(){
         const currentUser = this.props.users.usersArray.find(user => user.id === this.props.users.currentUserId)
         const {first_name, last_name} = currentUser.attributes
+        const image = this.props.workouts.formData.image ? {uri: this.props.workouts.formData.image.uri } : require('../assets/images/dumbbell-workout.png')
 
         console.log("LogNewWorkoutScreen Props: ", this.props)
         return (
             <ScrollView>
-                <View style={{margin: 10}}>
-                    <Text
-                        style={styles.textLabel}
-                    >
+
+                <View style={styles.centerContainer}>
+                    <Image source={image} style={{ width: 300, height: 300 }} />
+                    <Button
+                        title="Add Workout Image"
+                        onPress={this._pickImage}
+                        buttonStyle={styles.singleSmallButton}
+                        titleStyle={styles.singleSmallButtonTitle}
+                    />
+                    <View style={styles.hairLineBorder} />
+                </View>
+                
+                <View style={styles.detailsContainer}>
+                    <Text style={styles.detailsLabel}>
                         {`${first_name} ${last_name}`}
                     </Text>
-                </View>
-                <TextInput
-                    multiline
-                    placeholder='Example Workout Description'
-                    style={styles.textInput}
-                    value={this.props.workouts.workoutDescription}
-                    onChangeText={(text) => this.props.changeWorkoutFormDescription(text)}
-                />
-                <View>
-                    <Text style={styles.textLabel}>When?</Text>
-                    <Text style={styles.datetime} onPress={this.toggleShowDateTimePicker} >{this.renderDatetime()}</Text>
-                </View>
-
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <Button
-                    title="Pick an image from camera roll"
-                    onPress={this._pickImage}
+                    <TextInput
+                        multiline
+                        placeholder='Example Workout Description'
+                        style={styles.detailsLongTextInput}
+                        value={this.props.workouts.formData.workoutDescription}
+                        onChangeText={(text) => this.props.changeWorkoutFormDescription(text)}
                     />
-                    {this.state.image &&
-                    <Image source={{ uri: this.state.image.uri }} style={{ width: 200, height: 200 }} />}
+                    <Text style={styles.detailsLabel}>When?</Text>
+                    <Text style={styles.datetimeInput} onPress={this.toggleShowDateTimePicker} >{this.renderDatetime()}</Text>
+                    <Button
+                        title="Save"
+                        buttonStyle={styles.saveButton}
+                        onPress={this.handleSubmit}
+                    />  
                 </View>
-
-                <Button
-                    title="Save"
-                    buttonStyle={styles.buttonView}
-                    onPress={this.handleSubmit}
-                />
 
                 <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
@@ -136,15 +135,15 @@ class LogNewWorkoutScreen extends React.Component {
             datetime: this.props.workouts.formData.datetime,
             description: this.props.workouts.formData.workoutDescription,
         }
-        if (this.state.image) {
-            workout.image = this.state.image.base64,
+        if (this.props.workouts.formData.image) {
+            workout.image = this.props.workouts.formData.image.base64,
             workout.file_name = `${new Date().toUTCString()}-${user.attributes.first_name}${user.attributes.last_name}`
         }
         const data = {
             workout: workout
         }
         this.props.submitNewWorkout(token, data, this.props.selectedGroupId)
-        // this.props.navigation.navigate('WorkoutDetails')
+        this.props.navigation.navigate('ChatFeed')
     }
 
     _pickImage = async () => {
@@ -159,38 +158,10 @@ class LogNewWorkoutScreen extends React.Component {
         console.log(result);
     
         if (!result.cancelled) {
-          this.setState({ image: result });
+            this.props.selectWorkoutImage(result);
         }
       };
 
-}
-
-const styles = {
-    textLabel: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        margin: 10,
-        padding: 5,
-    },
-    textInput: {
-        fontSize: 20,
-        height: 75, 
-        borderRadius: 10, 
-        backgroundColor: '#D9D9D9',
-        margin: 10,
-        padding: 5,
-    },
-    datetime: {
-        fontSize: 20,
-        margin: 10,
-        padding: 5,
-        color: '#007AFF',
-    },
-    buttonView: {
-        width: '90%',
-        backgroundColor: '#007AFF',
-        margin: 10,
-    }
 }
 
 const mapStateToProps = state => ({
@@ -199,4 +170,4 @@ const mapStateToProps = state => ({
     selectedGroupId: state.groups.selectedGroupId
 })
 
-export default connect(mapStateToProps, { openNewWorkoutForm, changeWorkoutFormDatetime, changeWorkoutFormDescription, submitNewWorkout } )(LogNewWorkoutScreen);
+export default connect(mapStateToProps, { openNewWorkoutForm, changeWorkoutFormDatetime, changeWorkoutFormDescription, selectWorkoutImage, submitNewWorkout, refreshWorkouts, fetchWorkouts } )(LogNewWorkoutScreen);

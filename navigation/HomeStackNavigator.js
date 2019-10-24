@@ -8,6 +8,7 @@ import GroupStatsScreen from '../screens/GroupStatsScreen'
 import WeekStatsScreen from '../screens/WeekStatsScreen'
 import PenaltiesScreen from '../screens/PenaltiesScreen'
 import ChatFeedScreen from '../screens/ChatFeedScreen';
+import EditGoalsScreen from '../screens/EditGoalsScreen';
 
 
 
@@ -17,6 +18,7 @@ const HomeStackNavigator = createStackNavigator(
         Members: MembersScreen,
         MemberProfile: MemberProfileScreen,
         MemberWorkouts: ChatFeedScreen,
+        EditGoals: EditGoalsScreen,
         GroupStats: GroupStatsScreen,
         WeekStats: WeekStatsScreen,
         Penalties: PenaltiesScreen,

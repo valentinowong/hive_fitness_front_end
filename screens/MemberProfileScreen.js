@@ -10,15 +10,12 @@ import Calendar from '../components/Calendar'
 class MemberProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
+
+    const user = navigation.getParam('user')
     return {
-        title: `Member Profile`,
+        title: `${user ? `${user.attributes.first_name}'s` : 'My'} Profile`,
     };
   };
-
-  componentWillMount(){
-    const {setParams} = this.props.navigation;
-    setParams({websiteURL: this.props.websiteURL});
-  }
 
   keyExtractor = (item, index) => index.toString()
   
@@ -32,9 +29,6 @@ class MemberProfileScreen extends React.Component {
     const group = groups.groupsArray.find( group => group.id === groups.selectedGroupId)
     return (
       <ScrollView>
-        <Text>
-            This is the {user.attributes.first_name}'s Profile Screen!
-        </Text>
         <View 
           style={styles.centerContainer}
         >
@@ -47,7 +41,7 @@ class MemberProfileScreen extends React.Component {
               title="Edit Goal Days"
               buttonStyle={styles.singleSmallButton}
               titleStyle={styles.singleSmallButtonTitle}
-              // onPress={this.logout}
+              onPress={() => this.handleEditGoalsButtonPress(user, userGoals, group)}
             />
             <Button
               title={`${user_id === users.currentUserId ? 'My' : `${first_name}'s`} Workouts`}
@@ -79,6 +73,14 @@ class MemberProfileScreen extends React.Component {
   handleWorkoutsButtonPress = (id) => {
     this.props.navigation.navigate('MemberWorkouts', {
       selectedUserId: id,
+    })
+  }
+
+  handleEditGoalsButtonPress = (user, userGoals, group) => {
+    this.props.navigation.navigate('EditGoals', {
+      user: user,
+      userGoals: userGoals,
+      group: group,
     })
   }
 

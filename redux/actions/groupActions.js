@@ -26,9 +26,7 @@ export const selectGroup = (id, token) => dispatch => {
   console.log('Selecting Group');
   // Fetch Specific Group Info
   GroupAdapter.show(id, token).then(response => {
-    console.log("Group Show Response JSON: ", response)
-    // Update UsersArray
-    // Update WorkoutsArray
+    // console.log("Group Show Response JSON: ", response)
     dispatch({
       type: SELECT_GROUP,
       payload: response

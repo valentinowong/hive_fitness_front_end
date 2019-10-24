@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import { styles } from '../styles';
 
 class Calendar extends Component {
     render() {
         const days = this.daysArray()
-        console.log(this.props)
-        console.log('days array: ',days)
         return (
-            <View style={{width: '90%', borderWidth: 1}}>
+            <View style={{width: '90%', borderWidth: 1, padding: 5}}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{alignItems: 'center'}}>
                         <Text style={{fontWeight: 'bold'}}>Week</Text>
@@ -25,7 +23,9 @@ class Calendar extends Component {
     }
 
     weeksArray = () => {
-        numberOfWeeks = 13;
+        const startDate = this.props.group.attributes.start_date;
+        const endDate = this.props.group.attributes.end_date;
+        const numberOfWeeks = (((new Date(endDate) - new Date(startDate))/1000/60/60/24) + 1)/7 ;
         let weeks = [];
         let i;
         for (i = 0; i < numberOfWeeks; i++) {
@@ -33,6 +33,7 @@ class Calendar extends Component {
         };
         return weeks;
     }
+    
     renderWeekNumbersColumn = () => {
         const weeks = this.weeksArray();
         return weeks.map( week => {
@@ -53,6 +54,7 @@ class Calendar extends Component {
     renderGoalsColumn = () => {
         const weeks = this.weeksArray();
         return weeks.map( week => {
+            const goal = this.props.goals.find( goal => goal.attributes.week_number === week )
             return  <View
                         key={`Goal ${week}`}
                         style={{
@@ -62,7 +64,7 @@ class Calendar extends Component {
                             justifyContent: 'center'
                         }}
                     >
-                        <Text>4</Text>
+                        <Text>{goal.attributes.goal_days}</Text>
                     </View>
         })
     }
@@ -105,8 +107,8 @@ class Calendar extends Component {
     }
 
     daysArray = () => {
-        const startDate = '2019-09-30';
-        const endDate = '2019-12-29';
+        const startDate = this.props.group.attributes.start_date;
+        const endDate = this.props.group.attributes.end_date;
         let daysArray = [];
         let i
         for (i = new Date(startDate).getTime(); i <= new Date(endDate); i += 86400000) {
@@ -115,35 +117,6 @@ class Calendar extends Component {
         return daysArray
     }
 
-}
-
-const styles = {
-    workoutDate: {
-        width: 30,
-        height: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 30 / 2,
-        backgroundColor: 'green',
-        borderColor: 'black',
-        borderWidth: 1,
-    },
-    pastDate: {
-        width: 30,
-        height: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 30 / 2,
-        backgroundColor: '#A9A9A9',
-        borderColor: 'black',
-        borderWidth: 1,
-    },
-    futureDate: {
-        width: 30,
-        height: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
 }
 
 export default Calendar;

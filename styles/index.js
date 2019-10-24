@@ -81,33 +81,39 @@ export const styles = {
     },
     largeButtonTitle: {
         fontSize: fontSize.large,
+        fontWeight: 'bold',
         color: theme.lightMode.primaryColor
     },
     loginButton: {
-        width: '100%',
         backgroundColor: colors.orange,
         margin: 10,
+        borderRadius: 10,
     },
     saveButton: {
         width: '90%',
         margin: 10,
+        borderRadius: 10,
     },
     singleLargeButton: {
         width: '100%',
         backgroundColor: colors.lightGray,
         margin: 10,
+        borderRadius: 10,
     },
     singleLargeButtonTitle: {
         fontSize: fontSize.large,
+        fontWeight: 'bold',
         color: theme.lightMode.secondaryColor
     },
     singleSmallButton: {
         width: '75%',
         backgroundColor: colors.lightGray,
         margin: 10,
+        borderRadius: 10,
     },
     singleSmallButtonTitle: {
         fontSize: fontSize.small,
+        fontWeight: 'bold',
         color: theme.lightMode.secondaryColor
     },
     bodyContainer: {
@@ -159,7 +165,33 @@ export const styles = {
     feedWorkoutDescription: {
         fontSize: fontSize.small,
         margin: 5,
-    }
+    },
+    futureDate: {
+        width: 30,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    workoutDate: {
+        width: 30,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 30 / 2,
+        backgroundColor: colors.green,
+        borderColor: colors.black,
+        borderWidth: 1,
+    },
+    pastDate: {
+        width: 30,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 30 / 2,
+        backgroundColor: colors.darkGray,
+        borderColor: colors.black,
+        borderWidth: 1,
+    },
 }
 
 // containers

@@ -36,7 +36,7 @@ export const submitNewWorkout = (token, data, selectedGroupId) => dispatch => {
   console.log('Submitting New Workout');
   WorkoutAdapter.create(token, data, selectedGroupId)
     .then(response => {
-      console.log('Fetch Post JSON Response: ', response)
+      // console.log('Fetch Post JSON Response: ', response)
       dispatch({
         type: LOG_WORKOUT,
         payload: response.data,
@@ -48,7 +48,7 @@ export const fetchWorkouts = (token, selectedGroupId) => dispatch => {
   console.log('Fetching Workouts');
   WorkoutAdapter.index(token, selectedGroupId)
     .then(response => {
-      console.log('Fetch Workouts Index JSON Response: ', response)
+      // console.log('Fetch Workouts Index JSON Response: ', response)
       dispatch({
         type: FETCH_WORKOUTS,
         payload: response.data

@@ -14,15 +14,12 @@ class EditAccountScreen extends React.Component {
         const params = navigation.state.params || {};
         
         return {
-            title: 'My Account',
-            headerTitleStyle: {
-                color: '#000'
-            },
+            title: 'Edit Account',
             headerRight: (
                 <Button
-                onPress={() => navigation.navigate('EditAccount')}
-                  title="Edit"
-                  type="clear"
+                    // onPress={() => navigation.navigate('EditAccount')}
+                    title="Save"
+                    type="clear"
                 />
             ),
         };

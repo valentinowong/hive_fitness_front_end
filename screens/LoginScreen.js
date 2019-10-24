@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, Image } from 'react-native';
 import { styles } from '../styles';
 import { Button, Divider } from 'react-native-elements';
 import { AuthSession } from 'expo';
@@ -138,6 +138,7 @@ class LoginScreen extends React.Component {
     const currentUser = this.props.users.usersArray.find(user => user.id === currentUserId)
     return (
       <View style={styles.loginContainer}>
+        <Image style={{width: 375, height: 225 }} source={require('../assets/images/hive-fitness-logo_500x300.png')}/>
         {
           currentUserId ?
           <View>

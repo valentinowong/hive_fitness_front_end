@@ -42,7 +42,7 @@ class LogNewWorkoutScreen extends React.Component {
         const {first_name, last_name} = currentUser.attributes
         const image = this.props.workouts.formData.image ? {uri: this.props.workouts.formData.image.uri } : require('../assets/images/dumbbell-workout.png')
 
-        console.log("LogNewWorkoutScreen Props: ", this.props)
+        // console.log("LogNewWorkoutScreen Props: ", this.props)
         return (
             <ScrollView>
 
@@ -93,7 +93,7 @@ class LogNewWorkoutScreen extends React.Component {
     }
 
     handleDatePicked = datetime => {
-    console.log("A date has been picked: ", datetime);
+    // console.log("A date has been picked: ", datetime);
     this.props.changeWorkoutFormDatetime(datetime)
     this.toggleShowDateTimePicker();
     };
@@ -155,7 +155,7 @@ class LogNewWorkoutScreen extends React.Component {
             quality: 0.1,
         });
     
-        console.log(result);
+        // console.log(result);
     
         if (!result.cancelled) {
             this.props.selectWorkoutImage(result);

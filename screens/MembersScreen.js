@@ -44,8 +44,10 @@ class MembersScreen extends React.Component {
   }
 
   handleMemberPress = (id) => {
+    const user = this.props.users.usersArray.find(user => user.id === id )
     this.props.navigation.navigate('MemberProfile', {
       selectedUserId: id,
+      user: user,
     })
 }
 

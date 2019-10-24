@@ -18,9 +18,6 @@ class HomeScreen extends React.Component {
     render(){
         return (
             <View>
-                <Text>
-                    This is the Home Screen!
-                </Text>
                 <Button onPress={() => this.props.navigation.navigate('Home')}
                   title="Home"
                   type="outline"

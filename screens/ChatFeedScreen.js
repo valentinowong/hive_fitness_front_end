@@ -4,6 +4,7 @@ import { Button, ListItem, Card } from 'react-native-elements';
 import { refreshWorkouts, fetchWorkouts } from '../redux/actions/workoutActions';
 import { styles } from '../styles';
 import { connect } from 'react-redux';
+import WorkoutCard from '../components/WorkoutCard'
 
 class ChatFeedScreen extends React.Component {
 
@@ -11,7 +12,7 @@ class ChatFeedScreen extends React.Component {
         const params = navigation.state.params || {};
         
         return {
-            title: 'Chat Feed',
+            title: 'Workouts',
         };
     };
 
@@ -32,19 +33,9 @@ class ChatFeedScreen extends React.Component {
 
     renderItem = ({ item }) => {
         const user = this.props.users.usersArray.find(user => user.id === item.relationships.user.data.id)
-        const url = item.attributes.image_url ? {uri: item.attributes.image_url } : require('../assets/images/dumbbell-workout.png')
+        const imageUrl = item.attributes.image_url ? {uri: item.attributes.image_url } : require('../assets/images/dumbbell-workout.png')
         return (
-            <Card
-                image={url}
-                imageStyle={{width: 300, height: 300}}
-                imageProps={{resizeMode: 'contain'}}
-            >
-                <View style={styles.feedDetailsContainer}>
-                    <Text style={styles.feedUserName}>{`${user.attributes.first_name} ${user.attributes.last_name}`}</Text>
-                    <Text style={styles.feedDatetime}>{this.renderDatetime(item.attributes.datetime)}</Text>
-                </View>
-                <Text style={styles.feedWorkoutDescription}>{item.attributes.description}</Text>
-        </Card>  
+            <WorkoutCard user={user} workout={item}/>
         )
         
     }
@@ -71,44 +62,10 @@ class ChatFeedScreen extends React.Component {
 
     }
 
-    renderDatetime = (datetimeStr) => {
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-        // Add leading zero to hours & minutes
-        function addZero(i) {
-            if (i < 10) {
-              i = "0" + i;
-            }
-            return i;
-        }
-        function convertHours(i) {
-            if (i > 12) {
-                i -= 12;
-            } else if (i === 0 ){
-                i = 12;
-            }
-            return i;
-        }
-        const datetime = new Date(datetimeStr)
-        const day = days[datetime.getDay()]
-        const month = months[datetime.getMonth()]
-        const date = datetime.getDate()
-        const hour = addZero(datetime.getHours())
-        const displayHours = convertHours(datetime.getHours())
-        const minutes = addZero(datetime.getMinutes())
-        return `${displayHours}:${minutes} ${hour < 12 ? 'AM' : 'PM'}, ${day}, ${month} ${date}`
-    }
-
     handleRefresh = async () => {
         this.props.refreshWorkouts()
         const token = await AsyncStorage.getItem('token')
         this.props.fetchWorkouts(token, this.props.selectedGroupId)
-        // this.setState({
-        //     refreshing: true,
-        // }, () => {
-        //     await this.props.fetchWorkouts(token, this.props.selectedGroupId)
-        //     this.setState({refreshing: false})
-        // })
     }
 
 }

@@ -38,7 +38,7 @@ MyProfileStackNavigator.navigationOptions = {
 MyProfileStackNavigator.path = '';
 
 ChatStackNavigator.navigationOptions = {
-  tabBarLabel: 'Chat',
+  tabBarLabel: 'Workouts',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} />
   ),

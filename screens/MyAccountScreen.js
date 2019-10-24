@@ -14,9 +14,6 @@ class MyAccountScreen extends React.Component {
         
         return {
             title: 'My Account',
-            headerTitleStyle: {
-                color: '#000'
-            },
             headerRight: (
                 <Button
                 onPress={() => navigation.navigate('EditAccount')}

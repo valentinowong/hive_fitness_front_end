@@ -4,6 +4,7 @@ import groupReducer from './groupReducer';
 import userReducer from './userReducer';
 import workoutReducer from './workoutReducer';
 import goalReducer from './goalReducer';
+import penaltyReducer from './penaltyReducer';
 
 export default combineReducers({
     messages: helloReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
     users: userReducer,
     workouts: workoutReducer,
     goals: goalReducer,
+    penalties: penaltyReducer,
 });
